@@ -1,28 +1,38 @@
-.App {
+body {
+  background-image: url("./images/background.jpg");
+  background-size: cover;
+  background-color: black;
+  color: white;
+  background-repeat: no-repeat;
+  padding: 10px;
+}
+
+button.sw-button {
+  background-color: white;
+  color: black;
+  border: 0;
+  margin: 3px;
+}
+#planet-list-page {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#planet-detail-page {
+  padding: 8%;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+#planet-list {
+  list-style-type: none;
+  transform: rotateX(30deg);
+  padding: 0;
+}
+.planet-list-item {
+  padding: 5px;
+}
+.planet-list-item a {
   color: white;
 }
-
-.App-title {
-  font-size: 1.5em;
+.planet-list-item a:visited {
+  color: gray;
 }
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.planet-list-item a:hover {
+  color: yellow;
 }

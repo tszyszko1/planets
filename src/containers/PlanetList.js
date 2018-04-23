@@ -47,51 +47,67 @@ class PlanetList extends React.Component {
   componentDidMount() {
     this.props.fetchPlanets(this.state.page, this.state.pageLimit, "", true);
   }
-
-  render() {
+  renderPlanets = () => {
     const firstIndex = (this.state.page - 1) * this.state.pageLimit,
       planetsToRender = this.props.planets.slice(
         firstIndex,
         firstIndex + this.state.pageLimit
       );
-
+    if (planetsToRender.length === 0) {
+      if (this.props.allFetched) {
+        return <div>No more data</div>;
+      } else {
+        return <div>Fetching data</div>;
+      }
+    }
+    return planetsToRender.map((planet, i) => (
+      <li key={i} class="planet-list-item">
+        <Link
+          to={`/planet/${(this.state.page - 1) * this.state.pageLimit + i}`}
+        >
+          {planet.name}
+        </Link>
+      </li>
+    ));
+  };
+  render() {
     return (
-      <div>
+      <div id="planet-list-page">
+        <h1>Planets of Star Wars universe</h1>
         <div>
-          search:<input
+          search:{" "}
+          <input
             type="text"
             value={this.state.search}
             onChange={this.onSearch}
           />
         </div>
-        <ol>
-          {planetsToRender.map((planet, i) => (
-            <li key={i}>
-              {planet.name}
-              <Link
-                to={`/planet/${(this.state.page - 1) * this.state.pageLimit +
-                  i}`}
-              >
-                show
-              </Link>
-            </li>
-          ))}
-        </ol>
-        <button onClick={this.goToPage(this.state.page - 1)}>
-          previous page
-        </button>
-        {!this.props.allFetched && (
-          <button onClick={this.goToPage(this.state.page + 1)}>
-            next page
+        <ul id="planet-list">{this.renderPlanets()}</ul>
+        {this.state.page !== 1 && (
+          <button
+            className="sw-button"
+            onClick={this.goToPage(this.state.page - 1)}
+          >
+            {"<<"} prev
           </button>
         )}
-        <select value={this.state.pageLimit} onChange={this.onLimitChange}>
-          {pageLimits.map(pl => (
-            <option value={pl} key={pl}>
-              {pl}
-            </option>
-          ))}
-        </select>
+        {!this.props.allFetched && (
+          <button
+            className="sw-button"
+            onClick={this.goToPage(this.state.page + 1)}
+          >
+            next {">>"}
+          </button>
+        )}
+        <div>
+          <select value={this.state.pageLimit} onChange={this.onLimitChange}>
+            {pageLimits.map(pl => (
+              <option value={pl} key={pl}>
+                {pl}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     );
   }
