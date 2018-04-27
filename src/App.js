@@ -1,20 +1,22 @@
-import React, { Component } from "react";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Thunk from "redux-thunk";
+import React, { Component } from 'react'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import thunk from 'redux-thunk'
 
-import "./App.css";
-import reducers from "./reducers";
+import './App.css'
+import reducers from './reducers'
 
-import PlanetList from "./containers/PlanetList";
-import PlanetDetail from "./containers/PlanetDetail";
-const createStoreWithMiddleware = applyMiddleware(Thunk)(createStore);
+import PlanetList from './containers/PlanetList'
+import PlanetDetail from './containers/PlanetDetail'
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)))
 
 class App extends Component {
   render() {
     return (
-      <Provider store={createStoreWithMiddleware(reducers)}>
+      <Provider store={store}>
         <BrowserRouter>
           <Switch>
             <Route path="/planet/:id" component={PlanetDetail} />
@@ -22,8 +24,8 @@ class App extends Component {
           </Switch>
         </BrowserRouter>
       </Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App
